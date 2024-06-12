@@ -15,6 +15,7 @@ public class UsertToUserResponseConverter implements Converter<User, UserRespons
     @Override
     public UserResponse convert(User source) {
         return UserResponse.builder()
+                .userId(source.getUserId())
                 .name(source.getName())
                 .email(source.getEmail())
                 .password(source.getPassword())
@@ -23,6 +24,7 @@ public class UsertToUserResponseConverter implements Converter<User, UserRespons
                         .collect(Collectors.toSet())
                 )
                 .created(source.getCreated())
+                .modified(source.getModified())
                 .build();
     }
 }
