@@ -35,6 +35,11 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{userId}")
+    public UserResponse findById(@PathVariable UUID userId) {
+        return conversionService.convert(userService.getUserById(userId), UserResponse.class);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse create(@Valid @RequestBody UserRequest userRequest) {
