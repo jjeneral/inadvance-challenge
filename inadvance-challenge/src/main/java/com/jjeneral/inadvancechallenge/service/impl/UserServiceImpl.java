@@ -3,8 +3,8 @@ package com.jjeneral.inadvancechallenge.service.impl;
 import com.jjeneral.inadvancechallenge.model.entity.User;
 import com.jjeneral.inadvancechallenge.repository.UserRepository;
 import com.jjeneral.inadvancechallenge.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,11 +27,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
     @Override
     public User updateUser(User user, UUID userId) {
-        User userToUpdate = userRepository.getReferenceById(userId);
-        BeanUtils.copyProperties(user, userToUpdate, "userId");
+        User userToUpdate = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario con id " + userId + " no encontrado"));
 
-        return userRepository.save(user);
+        userToUpdate.setName(user.getName());
+        userToUpdate.setEmail(user.getEmail());
+        userToUpdate.setPassword(user.getPassword());
+        userToUpdate.setIsactive(user.getIsactive());
+
+        return userRepository.save(userToUpdate);
     }
 }

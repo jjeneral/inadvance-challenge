@@ -14,5 +14,6 @@ public class UserRequest {
     private String email;
     @NotBlank(message = "Debe ingresar password")
     private String password;
+    private Boolean isactive;
     private Set<PhoneDto> phones;
 }

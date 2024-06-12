@@ -19,6 +19,7 @@ public class UserRequestToUserConverter implements Converter<UserRequest, User> 
                 .name(source.getName())
                 .email(source.getEmail())
                 .password(source.getPassword())
+                .isactive(source.getIsactive())
                 .phones(source.getPhones().stream()
                         .map(phoneDtoToPhoneConverter::convert)
                         .collect(Collectors.toSet())
