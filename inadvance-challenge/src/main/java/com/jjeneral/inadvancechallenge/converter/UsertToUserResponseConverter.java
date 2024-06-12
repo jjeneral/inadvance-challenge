@@ -22,6 +22,7 @@ public class UsertToUserResponseConverter implements Converter<User, UserRespons
                         .map(phoneToPhoneDtoConverter::convert)
                         .collect(Collectors.toSet())
                 )
+                .created(source.getCreated())
                 .build();
     }
 }
