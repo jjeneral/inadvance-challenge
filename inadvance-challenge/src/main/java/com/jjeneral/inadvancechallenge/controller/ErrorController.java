@@ -1,6 +1,7 @@
 package com.jjeneral.inadvancechallenge.controller;
 
 import com.jjeneral.inadvancechallenge.model.dto.ErrorResponseDto;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -29,11 +30,11 @@ public class ErrorController {
         return getErrorResponse(validationErrors);
     }
 
-    @ExceptionHandler(EmptyResultDataAccessException.class)
+    @ExceptionHandler({EmptyResultDataAccessException.class, EntityNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponseDto handleNoDataFound(EmptyResultDataAccessException ex) {
-        log.error("Registro no encontrado", ex);
-        return getErrorResponse(Collections.singletonList(ex.getMessage()));
+    public ErrorResponseDto handleNoDataFound(Exception ex) {
+        log.error("Usuario no encontrado", ex);
+        return getErrorResponse(Collections.singletonList("Usuario no encontrado"));
     }
 
     @ExceptionHandler(Exception.class)
