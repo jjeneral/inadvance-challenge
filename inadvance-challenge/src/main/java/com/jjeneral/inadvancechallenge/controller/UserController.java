@@ -4,6 +4,7 @@ import com.jjeneral.inadvancechallenge.model.entity.User;
 import com.jjeneral.inadvancechallenge.model.request.UserRequest;
 import com.jjeneral.inadvancechallenge.model.response.UserResponse;
 import com.jjeneral.inadvancechallenge.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse create(@RequestBody UserRequest userRequest) {
+    public UserResponse create(@Valid @RequestBody UserRequest userRequest) {
         return conversionService.convert(
                 userService.createUser(
                         conversionService.convert(userRequest, User.class)
