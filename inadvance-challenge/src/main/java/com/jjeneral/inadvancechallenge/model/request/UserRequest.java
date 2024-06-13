@@ -1,5 +1,6 @@
 package com.jjeneral.inadvancechallenge.model.request;
 
+import com.jjeneral.inadvancechallenge.constraint.CorreoDisponible;
 import com.jjeneral.inadvancechallenge.model.dto.PhoneDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ public class UserRequest {
     private String name;
     @NotBlank(message = "Debe ingresar email")
     @Email(message = "Email no válido")
+    @CorreoDisponible
     private String email;
     @NotBlank(message = "Debe ingresar password")
     private String password;

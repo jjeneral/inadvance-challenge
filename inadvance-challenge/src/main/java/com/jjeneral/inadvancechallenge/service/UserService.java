@@ -10,4 +10,5 @@ public interface UserService {
     User getUserById(UUID userId);
     User createUser(User user);
     User updateUser(User user, UUID userId);
+    boolean isEmailAvailable(String email);
 }

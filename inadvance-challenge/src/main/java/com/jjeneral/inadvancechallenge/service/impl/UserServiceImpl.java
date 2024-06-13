@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(UUID userId) {
-        return userRepository.getReferenceById(userId);
+        return findUser(userId);
     }
 
     @Transactional
@@ -36,8 +36,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User updateUser(User user, UUID userId) {
-        User userToUpdate = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario con id " + userId + " no encontrado"));
+        User userToUpdate = findUser(userId);
 
         userToUpdate.setName(user.getName());
         userToUpdate.setEmail(user.getEmail());
@@ -45,5 +44,15 @@ public class UserServiceImpl implements UserService {
         userToUpdate.setIsactive(user.getIsactive());
 
         return userRepository.save(userToUpdate);
+    }
+
+    @Override
+    public boolean isEmailAvailable(String email) {
+        return !userRepository.existsByEmail(email);
+    }
+
+    private User findUser(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario con id " + userId + " no encontrado"));
     }
 }
