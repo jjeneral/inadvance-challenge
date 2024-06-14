@@ -3,16 +3,18 @@ package com.jjeneral.inadvancechallenge.model.response;
 import com.jjeneral.inadvancechallenge.model.dto.PhoneDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +23,7 @@ public class UserResponse {
     private String name;
     private String email;
     private String password;
-    private Set<PhoneDto> phones;
+    private List<PhoneDto> phones;
     private LocalDateTime created;
     private LocalDateTime modified;
     private LocalDateTime lastLogin;

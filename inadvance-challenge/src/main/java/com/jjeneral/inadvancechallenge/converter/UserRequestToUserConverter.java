@@ -22,7 +22,7 @@ public class UserRequestToUserConverter implements Converter<UserRequest, User> 
                 .isactive(source.getIsactive())
                 .phones(source.getPhones().stream()
                         .map(phoneDtoToPhoneConverter::convert)
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toList())
                 )
                 .build();
     }

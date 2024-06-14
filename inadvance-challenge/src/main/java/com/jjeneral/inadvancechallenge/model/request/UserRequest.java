@@ -5,11 +5,13 @@ import com.jjeneral.inadvancechallenge.constraint.FormatoPassword;
 import com.jjeneral.inadvancechallenge.model.dto.PhoneDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
+@Builder
 public class UserRequest {
     @NotBlank(message = "Debe ingresar name")
     private String name;
@@ -21,5 +23,5 @@ public class UserRequest {
     @FormatoPassword
     private String password;
     private Boolean isactive;
-    private Set<PhoneDto> phones;
+    private List<PhoneDto> phones;
 }

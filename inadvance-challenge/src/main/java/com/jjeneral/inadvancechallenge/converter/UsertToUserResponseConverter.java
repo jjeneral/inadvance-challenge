@@ -22,7 +22,7 @@ public class UsertToUserResponseConverter implements Converter<User, UserRespons
                 .isactive(source.getIsactive())
                 .phones(source.getPhones().stream()
                         .map(phoneToPhoneDtoConverter::convert)
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toList())
                 )
                 .created(source.getCreated())
                 .modified(source.getModified())
