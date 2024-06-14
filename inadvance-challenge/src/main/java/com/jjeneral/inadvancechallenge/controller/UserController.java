@@ -4,6 +4,13 @@ import com.jjeneral.inadvancechallenge.model.entity.User;
 import com.jjeneral.inadvancechallenge.model.request.UserRequest;
 import com.jjeneral.inadvancechallenge.model.response.UserResponse;
 import com.jjeneral.inadvancechallenge.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
@@ -28,6 +35,17 @@ public class UserController {
     private final UserService userService;
     private final ConversionService conversionService;
 
+    @Operation(summary = "Muestra un listado de todos los usuarios")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuarios registrados",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))
+                    })
+    })
     @GetMapping
     public List<UserResponse> findAll() {
         return userService.findAll().stream()
@@ -35,11 +53,25 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @Operation(summary = "Obtiene un usuario mediante su id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponse.class))}),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                    content = @Content)})
     @GetMapping("/{userId}")
-    public UserResponse findById(@PathVariable UUID userId) {
+    public UserResponse findById(@Parameter(description = "UUID del usuario a buscar") @PathVariable UUID userId) {
         return conversionService.convert(userService.getUserById(userId), UserResponse.class);
     }
 
+    @Operation(summary = "Registra un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Usuario creado",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "Error de validación",
+                    content = @Content)})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse create(@Valid @RequestBody UserRequest userRequest) {
@@ -49,8 +81,19 @@ public class UserController {
                 ), UserResponse.class);
     }
 
+    @Operation(summary = "Actualiza un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario creado",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "Error de validación",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                    content = @Content)
+    })
     @PutMapping("/{userId}")
-    public UserResponse update(@Valid @RequestBody UserRequest userRequest, @PathVariable UUID userId) {
+    public UserResponse update(@Valid @RequestBody UserRequest userRequest,
+                               @Parameter(description = "UUID del usuario a actualizar") @PathVariable UUID userId) {
         return conversionService.convert(
                 userService.updateUser(
                         conversionService.convert(userRequest, User.class), userId
