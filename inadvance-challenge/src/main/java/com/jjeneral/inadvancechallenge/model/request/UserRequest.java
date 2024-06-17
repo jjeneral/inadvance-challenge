@@ -1,6 +1,7 @@
 package com.jjeneral.inadvancechallenge.model.request;
 
 import com.jjeneral.inadvancechallenge.constraint.CorreoDisponible;
+import com.jjeneral.inadvancechallenge.constraint.CreateGroup;
 import com.jjeneral.inadvancechallenge.constraint.FormatoPassword;
 import com.jjeneral.inadvancechallenge.model.dto.PhoneDto;
 import jakarta.validation.constraints.Email;
@@ -17,7 +18,7 @@ public class UserRequest {
     private String name;
     @NotBlank(message = "Debe ingresar email")
     @Email(message = "Email no válido")
-    @CorreoDisponible
+    @CorreoDisponible(groups = CreateGroup.class)
     private String email;
     @NotBlank(message = "Debe ingresar password")
     @FormatoPassword
