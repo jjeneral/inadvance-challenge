@@ -19,7 +19,7 @@ public class UsertToUserResponseConverter implements Converter<User, UserRespons
                 .name(source.getName())
                 .email(source.getEmail())
                 .password(source.getPassword())
-                .isactive(source.getIsactive())
+                .isactive(source.isIsactive())
                 .phones(source.getPhones().stream()
                         .map(phoneToPhoneDtoConverter::convert)
                         .collect(Collectors.toList())
